@@ -11,7 +11,7 @@ sub expect
     my ($self, $got, $expected) = @_;
     local $TODO = $expected->{TODO} if exists $expected->{TODO};
     Test::More::is($got->{level}, $expected->{level}, "level $expected->{level} ok");
-    Test::More::is($got->{message}, $expected->{message}, "message ok");
+    Test::More::is($got->{message}, $expected->{message}, "message '$expected->{message}' ok");
 }
 
 
