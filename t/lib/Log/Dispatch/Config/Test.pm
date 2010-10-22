@@ -20,13 +20,16 @@ package t::lib::Log::Dispatch::Config::Test;
 use Log::Dispatch::Config;
 use t::lib::Log::Dispatch::Configurator::Static;
 
+my $_configurator;
+
+
 sub import
 {
     my $exporter = shift;
     my $tests = shift;
     die "ARRAY expected" unless ref($tests) eq 'ARRAY';
     warn "No tests" if $#{$tests} == -1;
-    Log::Dispatch::Config->configure(t::lib::Log::Dispatch::Configurator::Static->new(
+    $_configurator = t::lib::Log::Dispatch::Configurator::Static->new(
         format => undef,
         dispatchers => {
             test => {
@@ -37,7 +40,14 @@ sub import
                 ],
             },
         },
-    ));
+    );
+    Log::Dispatch::Config->configure($_configurator);
+}
+
+sub configurator
+{
+    #my $self = shift;
+    return $_configurator;
 }
 
 1;
