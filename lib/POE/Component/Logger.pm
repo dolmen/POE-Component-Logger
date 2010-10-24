@@ -1,5 +1,3 @@
-# $Id: Logger.pm,v 1.1.1.1 2002/01/10 20:48:53 matt Exp $
-
 package POE::Component::Logger;
 use strict;
 
@@ -18,7 +16,7 @@ sub spawn {
         inline_states => {
             _start => \&start_logger,
             _stop => \&stop_logger,
-            
+
             # more states here for logging of different levels?
             log => \&poe_log,
             debug => sub { local $DefaultLevel='debug'; poe_log(@_)},
@@ -36,11 +34,11 @@ sub spawn {
 
 sub start_logger {
     my ($kernel, $heap, %args) = @_[KERNEL, HEAP, ARG0 .. $#_];
-    
+
     $args{Alias} ||= 'logger';
-    
+
     Log::Dispatch::Config->configure($args{ConfigFile});
-    
+
     $heap->{_logger} = Log::Dispatch->instance;
     $heap->{_alias} = $args{Alias};
     $kernel->alias_set($args{Alias});
@@ -48,14 +46,14 @@ sub start_logger {
 
 sub stop_logger {
     my ($kernel, $heap) = @_[KERNEL, HEAP];
-    
+
     $kernel->alias_remove($heap->{_alias});
     delete $heap->{_logger};
 }
 
 sub poe_log {
     my ($heap, $arg0, @args) = @_[HEAP, ARG0, ARG1..$#_];
-    
+
     if (ref($arg0)) {
         $heap->{_logger}->log(%$arg0);
     }
