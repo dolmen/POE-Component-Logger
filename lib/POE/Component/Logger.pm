@@ -15,6 +15,7 @@ sub spawn {
     POE::Session->create(
         inline_states => {
             _start => \&_start_logger,
+            shutdown => \&_shutdown_logger,
             _stop => \&_stop_logger,
 
             # more states here for logging of different levels?
@@ -44,10 +45,28 @@ sub _start_logger {
     $kernel->alias_set($args{Alias});
 }
 
+sub shutdown {
+    #my $class = shift;
+    $poe_kernel->post(logger => 'shutdown');
+}
+
+sub _shutdown_logger {
+    my ($kernel, $heap) = @_[KERNEL, HEAP];
+    return unless exists $heap->{_alias};
+    $kernel->alias_remove(delete $heap->{_alias});
+}
+
 sub _stop_logger {
     my ($kernel, $heap) = @_[KERNEL, HEAP];
 
-    $kernel->alias_remove($heap->{_alias});
+    if (exists $heap->{_alias}) {
+        $heap->{_logger}->log(
+                level => 'notice',
+                message => __PACKAGE__.': \'shutdown\' event should have been sent instead of \'_stop\'')
+            if $_[SENDER] != $kernel;
+        $kernel->alias_remove(delete $heap->{_alias});
+    }
+
     delete $heap->{_logger};
 }
 
