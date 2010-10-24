@@ -6,11 +6,6 @@ use warnings;
 use Test::NoWarnings;
 use Test::More tests => 20;
 
-# Declare explicitely $TODO
-# We won't be able to use $TODO in the usual style
-# du to POE distribution of the code
-our $TODO;
-
 my @tests;
 
 BEGIN {
@@ -55,9 +50,6 @@ POE::Session->create(
             $poe_kernel->yield('evt3');
         },
         evt3 => sub {
-            # Set TODO "globally" until the next event
-            # (where we explicitely undef it)
-            $TODO = "Fix this race case";
             # The problem is that the DefaultLevel should be retrieved
             # synchronously at the Logger->log call instead of in the POE
             # event handler
@@ -70,7 +62,6 @@ POE::Session->create(
             $poe_kernel->yield('evt4');
         },
         evt4 => sub {
-            $TODO = undef;
             # We should be back at DefaultLevel
             is $POE::Component::Logger::DefaultLevel, 'warning', 'DefaultLevel';
             Logger->log('6. Warning');
