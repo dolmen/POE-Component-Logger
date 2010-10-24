@@ -4,7 +4,7 @@
 use strict;
 use warnings;
 use Test::NoWarnings;
-use Test::More tests => 30;
+use Test::More tests => 38;
 
 my @tests;
 
