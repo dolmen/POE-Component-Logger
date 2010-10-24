@@ -9,6 +9,10 @@ use Test::More;
 sub expect
 {
     my ($self, $got, $expected) = @_;
+    unless (defined $expected) {
+        Test::More::fail "message '$got->{message}' unexpected";
+        return;
+    }
     local $TODO = $expected->{TODO} if exists $expected->{TODO};
     Test::More::is($got->{level}, $expected->{level}, "level $expected->{level} ok");
     Test::More::is($got->{message}, $expected->{message}, "message '$expected->{message}' ok");
