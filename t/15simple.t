@@ -4,7 +4,7 @@
 use strict;
 use warnings;
 use Test::NoWarnings;
-use Test::More tests => 20;
+use Test::More tests => 30;
 
 my @tests;
 
@@ -16,6 +16,15 @@ BEGIN {
         { level => error => message => '4. Error', TODO => 'Fix this race case' },
         { level => critical => message => '5. Critical', TODO => 'Fix this race case' },
         { level => warning => message => '6. Warning' },
+        { level => warning => message => '7. Warning' },
+        { level => debug => message => '8. Debug' },
+        { level => info => message => '9. Info' },
+        { level => notice => message => '10. Notice' },
+        { level => warning => message => '11. Warning' },
+        { level => error => message => '12. Error' },
+        { level => critical => message => '13. Critical' },
+        { level => alert => message => '14. Alert' },
+        { level => emergency => message => '15. Emergency' },
     );
 }
 
@@ -65,6 +74,18 @@ POE::Session->create(
             # We should be back at DefaultLevel
             is $POE::Component::Logger::DefaultLevel, 'warning', 'DefaultLevel';
             Logger->log('6. Warning');
+            $poe_kernel->post('logger', 'log', '7. Warning');
+            $poe_kernel->yield('evt5');
+        },
+        evt5 => sub {
+            $poe_kernel->post('logger', 'debug', '8. Debug');
+            $poe_kernel->post('logger', 'info', '9. Info');
+            $poe_kernel->post('logger', 'notice', '10. Notice');
+            $poe_kernel->post('logger', 'warning', '11. Warning');
+            $poe_kernel->post('logger', 'error', '12. Error');
+            $poe_kernel->post('logger', 'critical', '13. Critical');
+            $poe_kernel->post('logger', 'alert', '14. Alert');
+            $poe_kernel->post('logger', 'emergency', '15. Emergency');
         },
         _stop => sub {
             pass "_stop";
