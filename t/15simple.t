@@ -4,7 +4,7 @@
 use strict;
 use warnings;
 use Test::NoWarnings;
-use Test::More tests => 38;
+use Test::More tests => 39;
 
 my @tests;
 
@@ -37,6 +37,8 @@ is $POE::Component::Logger::DefaultLevel, 'warning', 'DefaultLevel';
 
 POE::Component::Logger->spawn(
     ConfigFile => t::lib::Log::Dispatch::Config::Test->configurator);
+
+isnt $poe_kernel->alias_resolve('logger'), undef, "'logger' session exists";
 
 is $POE::Component::Logger::DefaultLevel, 'warning', 'DefaultLevel';
 
