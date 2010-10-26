@@ -66,21 +66,11 @@ sub _poe_log {
 }
 
 sub log {
-    my $class = shift;
-    POE::Session->create(
-        inline_states => {
-            _start => \&_start_logging,
-        },
-        args => [ @_ ],
-    );
+    my ($class, @args) = @_;
+    POE::Kernel->post(logger => log => @args);
 }
 
 *Logger::log = \&log;
-
-sub _start_logging {
-    my ($kernel, @args) = @_[KERNEL, ARG0..$#_];
-    $kernel->post(logger => log => @args);
-}
 
 1;
 __END__
