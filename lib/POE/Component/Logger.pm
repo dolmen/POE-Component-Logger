@@ -17,7 +17,9 @@ sub spawn {
             _start => \&_start_logger,
             _stop => \&_stop_logger,
 
+            # Log at the $DefaultLevel
             log =>       sub { my @args = @_; $args[STATE] = $DefaultLevel; _poe_log(@args) },
+            # Log at a specific level
             debug =>     \&_poe_log,
             info =>      \&_poe_log,
             notice =>    \&_poe_log,
@@ -50,28 +52,19 @@ sub _stop_logger {
     delete $heap->{_logger};
 }
 
-# Convert arguments into a HASHREf or arguments for Log::Dispatch
-sub _expand_args
-{
-    my $level = shift;
-    my $arg0 = $_[0];
 
-    if (ref $arg0) {
-        $arg0->{level} = $level unless exists $arg0->{level};
-        return %{$arg0};
-    } else {
-        return (
-            level => $level,
-            message => join('', @_),
-        );
-    }
-}
-
-# Private log method that calls Log::Dispatch
 sub _poe_log {
-    my ($heap, $level, @args) = @_[HEAP, STATE, ARG0..$#_];
-    my $logger = $heap->{_logger};
-    $logger->log(_expand_args($level, @args));
+    my ($heap, $level, $arg0, @args) = @_[HEAP, STATE, ARG0..$#_];
+
+    $heap->{_logger}->log(
+        # The default level is the POE event name ($_[STATE])
+        # (may be overriden in given hashref)
+        level => $level,
+        # If we get a HASHREF, expand it
+        # If we get a scalar, concatenate args as the message
+        (ref $arg0) ? (%{$arg0})
+                    : (message => join('', $arg0, @args))
+    );
 }
 
 
