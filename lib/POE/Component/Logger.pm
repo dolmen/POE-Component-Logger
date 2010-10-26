@@ -171,28 +171,46 @@ L<Log::Dispatch> for further details.
   class = Log::Dispatch::Syslog
   min_level = warning
 
-=head1 AUTHOR
+=head1 AUTHORS
 
-Matt Sergeant, matt@sergeant.org
+Matt Sergeant, C<matt@sergeant.org>.
+
+Olivier MenguE<eacute>, C<dolmen@cpan.org>.
 
 =head1 BUGS
 
 Please use http://rt.cpan.org/ for bugs.
 
-=head1 LICENSE
+=head1 COPYRIGHT & LICENSE
+
+Copyright E<copy> 2002 Matt Sergeant.
+
+Copyright E<copy> 2010 Olivier MenguE<eacute>.
 
 This is free software. You may use it and redistribute it
 under the same terms as Perl itself.
 
 =head1 SEE ALSO
 
+=over 4
+
+=item *
+
 L<Log::Dispatch>
+
+=item *
 
 L<Log::Dispatch::Config>
 
+=item *
+
 L<AppConfig>
 
+=item *
+
 L<POE>
+
+=back
 
 =cut
 
