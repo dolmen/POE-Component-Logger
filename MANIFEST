@@ -6,6 +6,7 @@ MANIFEST
 MANIFEST.SKIP
 README
 t/00basic.t
+t/01-pod.t
 t/10pre-log.t
 t/11pre-log2.t
 t/15simple.t
