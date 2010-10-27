@@ -27,7 +27,7 @@ WriteMakefile1(
     },
     META_MERGE => {
         resources => {
-            repository => 'git:git@github.com/dolmen/POE-Component-Logger',
+            repository => 'http://github.com/dolmen/POE-Component-Logger',
             homepage => 'http://github.com/dolmen/POE-Component-Logger',
         },
     },
