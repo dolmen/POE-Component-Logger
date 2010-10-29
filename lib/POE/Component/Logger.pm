@@ -6,7 +6,7 @@ use Log::Dispatch::Config;
 
 use vars qw($VERSION $DefaultLevel);
 
-$VERSION = '1.01';
+$VERSION = '1.10';
 
 $DefaultLevel = 'warning';
 
@@ -40,7 +40,7 @@ sub _start_logger {
 
     Log::Dispatch::Config->configure($args{ConfigFile});
 
-    $heap->{_logger} = Log::Dispatch->instance;
+    $heap->{_logger} = Log::Dispatch::Config->instance;
     $heap->{_alias} = $args{Alias};
     $kernel->alias_set($args{Alias});
 }
