@@ -3,7 +3,7 @@ use warnings;
 
 package t::lib::Log::Dispatch::Config::Test::Tester;
 
-use base 't::lib::Log::Dispatch::Expect';
+use parent 't::lib::Log::Dispatch::Expect';
 use Test::More;
 
 sub expect

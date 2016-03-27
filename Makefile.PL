@@ -19,7 +19,7 @@ WriteMakefile1(
         # core
         'File::Spec' => '0',
 	'Carp' => '0',
-	'base' => '0',
+	'parent' => '0',
         # CPAN
         'Log::Dispatch' => '2.26',
         'Log::Dispatch::Config' => '1.03',
