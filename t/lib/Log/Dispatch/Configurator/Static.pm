@@ -2,7 +2,7 @@ package t::lib::Log::Dispatch::Configurator::Static;
 use strict;
 use warnings;
 
-use base 'Log::Dispatch::Configurator';
+use parent 'Log::Dispatch::Configurator';
 
 use Carp;
 

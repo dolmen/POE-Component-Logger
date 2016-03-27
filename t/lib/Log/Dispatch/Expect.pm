@@ -2,7 +2,7 @@ package t::lib::Log::Dispatch::Expect;
 use strict;
 use warnings;
 
-use base 'Log::Dispatch::Output';
+use parent 'Log::Dispatch::Output';
 use Carp;
 
 sub new
